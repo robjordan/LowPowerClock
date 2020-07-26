@@ -9,7 +9,7 @@ The code attempts to overcome this by tracking drift, and hence delaying the nec
 
 To date, I have found NTP needs to be requested every 8 hours to maintain 1-minute accuracy.
 
-Factors in power consumtion:
+Factors in power consumption:
 * Deep-sleeps 58 seconds of every minute, current is ~30uA, therefore negligible.
 * Refreshes screen for ~2 seconds of every minute, no WiFi, current 18-20mA, the dominant factor in power consumption.
 * Consults NTP for ~5 seconds every 8 hours, WiFi on, current ~80mA. Accounts for under 3% of power consumption. 

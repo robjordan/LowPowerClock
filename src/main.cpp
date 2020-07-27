@@ -37,6 +37,9 @@ extern "C" {
 #define NTP_INTERVAL (rtcMem.iterations<12 ? 600 : 28800)
 #define DIFF19001970 (2208988800UL)
 
+// Measure VCC from battery
+ADC_MODE(ADC_VCC);
+
 // NTP Servers:
 static const char ntpServerName[] = "uk.pool.ntp.org";
 //static const char ntpServerName[] = "time.nist.gov";
@@ -157,7 +160,7 @@ void digitalClockDisplay()
   char t[6], d[11], dbg[128];
   sprintf(t, "%02d:%02d", hour(uktime), minute(uktime));
   sprintf(d, "%s %d %s", daynames[weekday()], day(), monthnames[month()]);
-  sprintf(dbg, "s:%02d i:%d d(ms):%d", second(), rtcMem.iterations, (int)rtcMem.driftPerMinute/1000);
+  sprintf(dbg, "d:%d v:%d", (int)(rtcMem.driftPerMinute/1000), ESP.getVcc());
 
   // digital clock display of the time
   Serial.println(t);
@@ -165,6 +168,8 @@ void digitalClockDisplay()
   // Additional debugging info
   Serial.print("Seconds: ");
   Serial.println(second());
+  Serial.print("Debug: ");
+  Serial.println(dbg);
 
   display.init();
   display.setRotation(1);
